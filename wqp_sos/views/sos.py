@@ -29,8 +29,10 @@ def sos():
         offering = request.args.get("offering", request.args.get("OFFERING", request.args.get("Offering", None)))
         obs_props = request.args.get("observedproperty", request.args.get("OBSERVEDPROPERTY", request.args.get("observedProperty", None)))
 
-        if req.lower() == "describesensor" and procedure is None:
-            return Response(render_template("error.xml", parameter="procedure", value=procedure), mimetype='text/xml')
+        if req.lower() == "describesensor":
+            if procedure is None:
+                return Response(render_template("error.xml", parameter="procedure", value=procedure), mimetype='text/xml')
+            siteid = procedure
 
         if req.lower() == "getobservation":
             if offering is None:
@@ -39,10 +41,12 @@ def sos():
                 return Response(render_template("error.xml", parameter="observedProperty", value=op), mimetype='text/xml')
             else:
                 obs_props = list(set(obs_props.split(",")))
+
+            siteid = offering
     
         wq = WqpRest()
-        station = wq.get_metadata(siteid=procedure)
-        activities = wq.get_data(siteid=procedure).activities
+        station = wq.get_metadata(siteid=siteid)
+        activities = wq.get_data(siteid=siteid).activities
 
         if req.lower() == "describesensor":
             # Get unique observedProperties
