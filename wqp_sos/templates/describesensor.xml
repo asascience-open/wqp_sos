@@ -3,7 +3,7 @@
   <sml:member>
     <sml:System>
       <gml:description>{{ station.location.description }}</gml:description>
-      <gml:name>{{ station.location.id }}}</gml:name>
+      <gml:name>{{ station.location.id }}</gml:name>
       <sml:identification>
         <sml:IdentifierList>
           <sml:identifier name="stationId">

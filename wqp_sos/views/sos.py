@@ -112,7 +112,7 @@ def sos():
             return Response(render_template("getobservation.xml", min_time=min_time, max_time=max_time, station=station, data_block=data_block, observedProperties=set(ops)), mimetype='text/xml')
 
     else:
-        return Response(render_template("error.xml", parameter="request", value=request), mimetype='text/xml')
+        return Response(render_template("error.xml", parameter="request", value=req), mimetype='text/xml')
 
 @app.route('/crossdomain.xml', methods=['GET'])
 def crossdomain():
