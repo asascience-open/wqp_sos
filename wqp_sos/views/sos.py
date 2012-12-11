@@ -68,19 +68,23 @@ def sos():
             eventtime = request.args.get("eventtime", request.args.get("EVENTTIME", request.args.get("Eventtime", None)))
 
             if eventtime is not None and (isinstance(eventtime, unicode) or isinstance(eventtime, str)):
-                if eventtime.lower() == "latest":
-                    starting = max([a.start_time for a in activities])
-                    ending = starting + timedelta(minutes=1)
-                else:
-                    starting = dateparser.parse(eventtime.split("/")[0])
-                    ending = dateparser.parse(eventtime.split("/")[1])
+                if len(activities) > 0:
+                    if eventtime.lower() == "latest":
+                        starting = max([a.start_time for a in activities])
+                        ending = starting + timedelta(minutes=1)
+                    else:
+                        starting = dateparser.parse(eventtime.split("/")[0])
+                        ending = dateparser.parse(eventtime.split("/")[1])
 
-                activities = [a for a in activities if starting <= a.start_time and a.start_time < ending]
+                    activities = [a for a in activities if starting <= a.start_time and a.start_time < ending]
 
-            # Extract timerange using Python here, instead of in Jinja2
-            all_times = [a.start_time for a in activities]
-            min_time = min(all_times)
-            max_time = max(all_times)
+            min_time = "never"
+            max_time = "never"
+            if len(activities) > 0:
+                # Extract timerange using Python here, instead of in Jinja2
+                all_times = [a.start_time for a in activities]
+                min_time = min(all_times)
+                max_time = max(all_times)
 
             # Get observedProperties
             ops = []
