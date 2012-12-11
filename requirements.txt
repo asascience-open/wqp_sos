@@ -3,6 +3,6 @@ gunicorn
 requests
 pytz
 python-dateutil
-git+https://github.com/asascience-open/pyoos.git@master#egg=pyoos
 git+https://github.com/kwilcox/owslib.git@trunk#egg=OWSLib
+git+https://github.com/asascience-open/pyoos.git@master#egg=pyoos
 lxml
