@@ -1,0 +1,1 @@
+from wqp_sos.views import sos

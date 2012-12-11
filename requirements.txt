@@ -1,0 +1,11 @@
+Flask==0.9
+gunicorn==0.16.1
+unittest2==0.5.1
+Shapely==1.2.16
+requests
+pytest
+pytest-cov
+pytz
+python-dateutil
+git+https://github.com/asascience-open/pyoos.git@master#egg=pyoos
+lxml

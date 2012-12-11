@@ -1,0 +1,5 @@
+DEBUG = False
+TESTING = False
+LOG_FILE = True
+
+SERVER_NAME = "0.0.0.0"

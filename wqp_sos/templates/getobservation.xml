@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<om:ObservationCollection xmlns:om="http://www.opengis.net/om/1.0" xmlns:gml="http://www.opengis.net/gml" xmlns:swe="http://www.opengis.net/swe/1.0.1" xmlns:swe2="http://www.opengis.net/swe/2.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/om/1.0 http://schemas.opengis.net/om/1.0.0/observation.xsd">
+  <gml:metaDataProperty xlink:title="disclaimer">
+    <gml:GenericMetaData>
+      <gml:description>The data you have secured from the USGS NWISWeb database may include data that have not received Director's approval and as such are provisional and subject to revision. The data are released on the condition that neither the USGS nor the United States Government may be held liable for any damages resulting from its authorized or unauthorized use.  To view additional data-quality attributes, output the results using these options: one result per row, expanded attributes. Additional precautions are at: http://waterdata.usgs.gov/nwis/qwdata?help#Data_retrievals_precautions</gml:description>
+    </gml:GenericMetaData>
+  </gml:metaDataProperty>
+  <gml:metaDataProperty xlink:title="ioosTemplateVersion" xlink:href="http://code.google.com/p/ioostech/source/browse/#svn%2Ftrunk%2Ftemplates%2FMilestone1.0">
+    <gml:version>1.0</gml:version>
+  </gml:metaDataProperty>
+  <gml:boundedBy>
+    <gml:Envelope srsName="{{ station.location.horizontal_crs_name }}">
+      <gml:lowerCorner>{{ station.location.latitude }} {{ station.location.longitude }}</gml:lowerCorner>
+      <gml:upperCorner>{{ station.location.latitude }} {{ station.location.longitude }}</gml:upperCorner>
+    </gml:Envelope>
+  </gml:boundedBy>
+  <om:member>
+    <om:Observation>
+      <gml:description>{{ station.location.description }}</gml:description>
+      <om:samplingTime>
+        <gml:TimePeriod>
+          <gml:beginPosition>{{ min_time }}</gml:beginPosition>
+          <gml:endPosition>{{ max_time }}</gml:endPosition>
+        </gml:TimePeriod>
+      </om:samplingTime>
+      <om:procedure>
+        <om:Process>
+          <gml:member xlink:href="{{ station.location.id }}"/>
+        </om:Process>
+      </om:procedure>
+      <om:observedProperty>
+        <swe:CompositePhenomenon dimension="1" gml:id="observedproperties1">
+          <gml:name>Response Observed Properties</gml:name>
+          {%- for op in observedProperties %}
+            <swe:component xlink:href="{{ op.name }}"/>
+          {%- endfor %}
+        </swe:CompositePhenomenon>
+      </om:observedProperty>
+      <om:featureOfInterest>
+        <gml:FeatureCollection>
+          <gml:metaDataProperty>
+            <gml:name codeSpace="http://cf-pcmdi.llnl.gov/documents/cf-conventions/1.6/cf-conventions.html#discrete-sampling-geometries">timeSeries</gml:name>
+          </gml:metaDataProperty>
+          <gml:boundedBy>
+            <gml:Envelope srsName="http://www.opengis.net/def/crs/EPSG/0/4326">
+              <gml:lowerCorner>{{ station.location.latitude }} {{ station.location.longitude }}</gml:lowerCorner>
+              <gml:upperCorner>{{ station.location.latitude }} {{ station.location.longitude }}</gml:upperCorner>
+            </gml:Envelope>
+          </gml:boundedBy>
+          <gml:location>
+            <gml:MultiPoint srsName="{{ station.location.horizontal_crs_name }}">
+              <gml:pointMembers>
+                <gml:Point>
+                  <gml:name>{{ station.location.id }}</gml:name>
+                  <gml:pos>{{ station.location.latitude }} {{ station.location.longitude }}</gml:pos>
+                </gml:Point>
+              </gml:pointMembers>
+            </gml:MultiPoint>
+          </gml:location>
+        </gml:FeatureCollection>
+      </om:featureOfInterest>
+      <om:result>
+        <swe2:DataStream>
+          <swe2:elementType name="components">
+            <swe2:DataRecord>
+              <swe2:field name="stationID">
+                <swe2:Text definition="http://mmisw.org/ont/ioos/definition/stationID">
+                  <swe2:value>{{ station.location.id }}</swe2:value>
+                </swe2:Text>
+              </swe2:field>
+              <swe2:field name="location">
+                <swe2:Vector definition="http://www.opengis.net/def/property/OGC/0/PlatformLocation" referenceFrame="{{ station.location.horizontal_crs_name }}">
+                  <swe2:coordinate name="latitude">
+                    <swe2:Quantity definition="http://mmisw.org/ont/cf/parameter/latitude">
+                      <swe2:uom code="deg"/>
+                      <swe2:value>{{ station.location.latitude }}</swe2:value>
+                    </swe2:Quantity>
+                  </swe2:coordinate>
+                  <swe2:coordinate name="longitude">
+                    <swe2:Quantity definition="http://mmisw.org/ont/cf/parameter/longitude">
+                      <swe2:uom code="deg"/>
+                      <swe2:value>{{ station.location.longitude }}</swe2:value>
+                    </swe2:Quantity>
+                  </swe2:coordinate>
+                </swe2:Vector>
+              </swe2:field>
+              <swe2:field name="time">
+                <swe2:Time definition="http://www.opengis.net/def/property/OGC/0/SamplingTime">
+                  <swe2:uom xlink:href="http://www.opengis.net/def/uom/ISO-8601/0/Gregorian"/>
+                </swe2:Time>
+              </swe2:field>
+              <swe2:field name="altitude">
+                <swe2:Quantity definition="http://mmisw.org/ont/cf/parameter/altitude" referenceFrame="{{ station.location.vertical_crs_name }}">
+                  <swe2:uom code="{{ station.location.vertical_measure_units }}"/>
+                  <swe2:value>{{ station.location.vertical_measure_value }}</swe2:value>
+                </swe2:Quantity>
+              </swe2:field>
+              {%- for op in observedProperties %}
+                <swe2:field name="{{ op.name }}">
+                  <swe2:Quantity definition="{{ op.name }}">
+                    <swe2:uom code="{{ op.units }}"/>
+                  </swe2:Quantity>
+                </swe2:field>
+              {%- endfor %}
+            </swe2:DataRecord>
+          </swe2:elementType>
+          <swe2:encoding>
+            <swe2:TextEncoding decimalSeparator="." tokenSeparator="," blockSeparator="\n"/>
+          </swe2:encoding>
+          <swe2:values>
+            {{ data_block }}
+          </swe2:values>
+        </swe2:DataStream>
+      </om:result>
+    </om:Observation>
+  </om:member>
+</om:ObservationCollection>
