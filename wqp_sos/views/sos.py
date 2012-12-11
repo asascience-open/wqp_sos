@@ -20,6 +20,9 @@ def sos():
     if req is None:
         return Response(render_template("error.xml", parameter="request", value=req), mimetype='text/xml')
 
+    if req.lower() == "getcapabilities":
+        return Response(render_template("getcapabilities.xml"), mimetype='text/xml')
+
     if req.lower() == "describesensor" or req.lower() == "getobservation":
 
         procedure = request.args.get("procedure", request.args.get("PROCEDURE", request.args.get("Procedure", None)))

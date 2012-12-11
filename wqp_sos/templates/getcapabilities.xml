@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<sos:Capabilities xmlns:sos="http://www.opengis.net/sos/1.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:gml="http://www.opengis.net/gml" xmlns:om="http://www.opengis.net/om/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/sos/1.0 http://schemas.opengis.net/sos/1.0.0/sosAll.xsd" version="1.0.0">
+  <ows:ServiceIdentification>
+    <ows:Title>WQP SOS</ows:Title>
+    <ows:Abstract>WQP SOS</ows:Abstract>
+    <ows:Keywords>
+      <ows:Keyword>Water Quality</ows:Keyword>
+      <ows:Keyword>STORET</ows:Keyword>
+      <ows:Keyword>NWIS</ows:Keyword>
+      <ows:Keyword>USGS</ows:Keyword>
+      <ows:Keyword>USEPA</ows:Keyword>
+      <ows:Keyword>EPA</ows:Keyword>
+      <ows:Keyword>WaterQuality</ows:Keyword>
+    </ows:Keywords>
+    <ows:ServiceType codeSpace="http://opengeospatial.net">OGC:SOS</ows:ServiceType>
+    <ows:ServiceTypeVersion>1.0.0</ows:ServiceTypeVersion>
+    <ows:Fees>NONE</ows:Fees>
+    <ows:AccessConstraints>NONE</ows:AccessConstraints>
+  </ows:ServiceIdentification>
+  <ows:ServiceProvider>
+    <ows:ProviderName>WQP SOS</ows:ProviderName>
+    <ows:ProviderSite xlink:href="http://sdf.ndbc.noaa.gov/"/>
+    <ows:ServiceContact>
+      <ows:IndividualName>Kyle Wilcox</ows:IndividualName>
+      <ows:ContactInfo>
+        <ows:Phone>
+          <ows:Voice>401-789-6224</ows:Voice>
+        </ows:Phone>
+        <ows:Address>
+          <ows:DeliveryPoint>55 Village Square Drive</ows:DeliveryPoint>
+          <ows:City>South Kingstown</ows:City>
+          <ows:AdministrativeArea>RI</ows:AdministrativeArea>
+          <ows:PostalCode>02879</ows:PostalCode>
+          <ows:Country>USA</ows:Country>
+          <ows:ElectronicMailAddress>kwilcox@asascience.com</ows:ElectronicMailAddress>
+        </ows:Address>
+      </ows:ContactInfo>
+    </ows:ServiceContact>
+  </ows:ServiceProvider>
+  <ows:OperationsMetadata>
+    <ows:Operation name="GetCapabilities">
+      <ows:DCP>
+        <ows:HTTP>
+          <ows:Get xlink:href="{{ url_for('sos', _external=True) }}" />
+        </ows:HTTP>
+      </ows:DCP>
+      <!--ows:Parameter name="Sections">
+        <ows:AllowedValues>
+          <ows:Value>ServiceIdentification</ows:Value>
+          <ows:Value>ServiceProvider</ows:Value>
+          <ows:Value>OperationsMetadata</ows:Value>
+          <ows:Value>Contents</ows:Value>
+          <ows:Value>All</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter-->
+    </ows:Operation>
+    <ows:Operation name="GetObservation">
+      <ows:DCP>
+        <ows:HTTP>
+          <ows:Get xlink:href="{{ url_for('sos', _external=True) }}" />
+        </ows:HTTP>
+      </ows:DCP>
+      <ows:Parameter name="observedProperty">
+        <ows:AllowedValues>
+          <ows:Value>lots</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+      <ows:Parameter name="responseFormat">
+        <ows:AllowedValues>
+          <ows:Value>text/xml;subtype="om/1.0.0"</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+    </ows:Operation>
+    <ows:Operation name="DescribeSensor">
+      <ows:DCP>
+        <ows:HTTP>
+          <ows:Get xlink:href="{{ url_for('sos', _external=True) }}" />
+        </ows:HTTP>
+      </ows:DCP>
+      <ows:Parameter name="outputFormat">
+        <ows:AllowedValues>
+          <ows:Value>text/xml;subtype="sensorML/1.0.1"</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+    </ows:Operation>
+    <ows:Parameter name="service">
+      <ows:AllowedValues>
+        <ows:Value>SOS</ows:Value>
+      </ows:AllowedValues>
+    </ows:Parameter>
+    <ows:Parameter name="version">
+      <ows:AllowedValues>
+        <ows:Value>1.0.0</ows:Value>
+      </ows:AllowedValues>
+    </ows:Parameter>
+    <ows:ExtendedCapabilities>
+      <gml:metaDataProperty xlink:title="ioosTemplateVersion" xlink:href="http://code.google.com/p/ioostech/source/browse/#svn%2Ftrunk%2Ftemplates%2FMilestone1.0">
+        <gml:version>1.0</gml:version>
+      </gml:metaDataProperty>
+    </ows:ExtendedCapabilities>
+  </ows:OperationsMetadata>
+  <sos:Contents>
+    <sos:ObservationOfferingList>
+      <sos:ObservationOffering gml:id="network-all">
+        <gml:description>All stations available in the WQP SOS</gml:description>
+        <gml:name>urn:ioos:network:wqp:all</gml:name>
+        <gml:srsName>http://www.opengis.net/def/crs/EPSG/0/4326</gml:srsName>
+        <gml:boundedBy>
+          <gml:Envelope srsName="http://www.opengis.net/def/crs/EPSG/0/4326">
+            <gml:lowerCorner>-90 -180</gml:lowerCorner>
+            <gml:upperCorner>90 180</gml:upperCorner>
+          </gml:Envelope>
+        </gml:boundedBy>
+        <sos:time>
+          <gml:TimePeriod>
+            <gml:beginPosition>0001-01-01T00:00:00Z</gml:beginPosition>
+            <gml:endPosition indeterminatePosition="now"/>
+          </gml:TimePeriod>
+        </sos:time>
+        <sos:procedure xlink:href="urn:ioos:network:wqp:all"/>
+        <sos:observedProperty xlink:href="lots"/>
+        <sos:featureOfInterest xlink:href="urn:cgi:Feature:CGI:EarthOcean"/>
+        <sos:responseFormat>text/xml;subtype="om/1.0.0"</sos:responseFormat>
+        <sos:resultModel>om:ObservationCollection</sos:resultModel>
+        <sos:responseMode>inline</sos:responseMode>
+      </sos:ObservationOffering>
+    </sos:ObservationOfferingList>
+  </sos:Contents>
+</sos:Capabilities>      
