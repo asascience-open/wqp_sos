@@ -72,8 +72,8 @@ def sos():
                     starting = max([a.start_time for a in activities])
                     ending = starting + timedelta(minutes=1)
                 else:
-                    starting = dateparser(eventtime.split("/")[0])
-                    ending = dateparser(eventtime.split("/")[1])
+                    starting = dateparser.parse(eventtime.split("/")[0])
+                    ending = dateparser.parse(eventtime.split("/")[1])
 
                 activities = [a for a in activities if starting <= a.start_time and a.start_time < ending]
 
