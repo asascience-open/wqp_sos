@@ -22,6 +22,9 @@ class GetObservation(object):
     
         wq = WqpRest()
         station = wq.get_metadata(siteid=self.offering)
+        if station.failed:
+            return render_template("error.xml", parameter="offering", value="Invalid value")
+
         activities = wq.get_data(siteid=self.offering).activities
 
         # Filter by observedProperties

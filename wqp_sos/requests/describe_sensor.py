@@ -12,6 +12,9 @@ class DescribeSensor(object):
 
         wq = WqpRest()
         station = wq.get_metadata(siteid=self.procedure)
+        if station.failed:
+            return render_template("error.xml", parameter="procedure", value="Invalid value")
+            
         activities = wq.get_data(siteid=self.procedure).activities
 
         # Get unique observedProperties
