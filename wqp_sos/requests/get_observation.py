@@ -40,7 +40,7 @@ class GetObservation(object):
                     starting = dateparser.parse(self.eventtime.split("/")[0])
                     ending = dateparser.parse(self.eventtime.split("/")[1])
 
-                activities = [a for a in activities if starting <= a.start_time and a.start_time < ending]
+                activities = [a for a in activities if starting <= a.start_time and a.start_time <= ending]
 
         min_time = "never"
         max_time = "never"
