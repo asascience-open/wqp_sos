@@ -66,7 +66,7 @@ class GetObservation(object):
             for obp in ops:
                 for r in a.results:
                     if r.name == obp.name:
-                        row.append(r.value)
+                        row.append(unicode(r.value))
                         match = True
                         break
                 if match == True:
